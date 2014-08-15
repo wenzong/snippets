@@ -12,7 +12,7 @@ Maven
 ```
 mvn archetype:generate \
     -DarchetypeArtifactId=maven-archetype-quickstart \
-    -DgroupId=com.none.test-app \
+    -DgroupId=com.none.app \
     -DartifactId=my-test-app \
     -DinteractiveMode=false
 ```
