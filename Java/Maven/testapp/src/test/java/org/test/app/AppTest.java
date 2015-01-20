@@ -1,4 +1,4 @@
-package com.none.app;
+package org.test.app;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -7,7 +7,7 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
-public class EmbeddedJettyTest 
+public class AppTest 
     extends TestCase
 {
     /**
@@ -15,7 +15,7 @@ public class EmbeddedJettyTest
      *
      * @param testName name of the test case
      */
-    public EmbeddedJettyTest( String testName )
+    public AppTest( String testName )
     {
         super( testName );
     }
@@ -25,7 +25,7 @@ public class EmbeddedJettyTest
      */
     public static Test suite()
     {
-        return new TestSuite( EmbeddedJettyTest.class );
+        return new TestSuite( AppTest.class );
     }
 
     /**
