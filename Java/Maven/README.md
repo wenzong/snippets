@@ -24,6 +24,7 @@ mvn archetype:generate \
     + `mvn dependency:list`
     + `mvn dependency:tree -Ddetail`
     + `mvn dependency:build-classpath`
+    + `mvn dependency:sources`(`mvn eclipse:eclipse`)
 + help:
     + `mvn help:effective-pom`
     + `mvn help:effective-settings`
