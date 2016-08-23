@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
+        "laravel/framework": "5.2.*",
+        "goaop/framework": "^1.1",
+        "goaop/goaop-laravel-bridge": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -45,6 +47,16 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
-    }
+        "preferred-install": "dist",
+        "secure-http": false
+    },
+    "repositories": [
+        {
+            "packagist": false
+        },
+        {
+            "type": "composer",
+            "url": "http://packagist.phpcomposer.com"
+        }
+    ]
 }
