@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SomeEvent' => [
             'App\Listeners\EventListener',
         ],
+        'Illuminate\Cache\Events\CacheHit' => [
+            'App\Listeners\EventListener',
+        ],
     ];
 
     /**

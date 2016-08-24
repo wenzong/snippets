@@ -2,8 +2,8 @@
 
 namespace App;
 
-class Hello {
+class World {
     public function origin_func() {
-        echo "hello";
+        echo "world";
     }
 }

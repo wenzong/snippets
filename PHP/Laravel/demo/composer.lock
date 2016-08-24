@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2c9bc0a57b66c657a113597190f6727b",
-    "content-hash": "2ce96fd9f5234a062ff6964e030e0b4a",
+    "hash": "70405001dadf755f2d7a6f5377765e64",
+    "content-hash": "c4172ee51bdde6ed7c7a15ed281cfc76",
     "packages": [
         {
             "name": "andrewsville/php-token-reflection",
@@ -433,6 +433,43 @@
                 "php"
             ],
             "time": "2016-05-14 12:58:04"
+        },
+        {
+            "name": "guymers/php-dynamic-proxy",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guymers/php-dynamic-proxy.git",
+                "reference": "29686c28d052ea72a583c9dcb7611690c4c71972"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guymers/php-dynamic-proxy/zipball/29686c28d052ea72a583c9dcb7611690c4c71972",
+                "reference": "29686c28d052ea72a583c9dcb7611690c4c71972",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "guymers": "src/main/php"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A dynamic proxy generator for PHP",
+            "homepage": "http://github.com/guymers/php-dynamic-proxy",
+            "support": {
+                "source": "https://github.com/guymers/php-dynamic-proxy/tree/master",
+                "issues": "https://github.com/guymers/php-dynamic-proxy/issues"
+            },
+            "time": "2013-05-25 01:52:53"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1114,6 +1151,56 @@
                 "random"
             ],
             "time": "2016-03-18 20:34:03"
+        },
+        {
+            "name": "predis/predis",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/nrk/predis/f0210e38881631afeafb56ab43405a92cafd9fd1.zip",
+                "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete Redis client for PHP and HHVM",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2016-06-16 16:22:20"
         },
         {
             "name": "psr/log",
@@ -3483,7 +3570,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "guymers/php-dynamic-proxy": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
