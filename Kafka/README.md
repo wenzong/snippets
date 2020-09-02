@@ -77,6 +77,7 @@ kafka1 $ docker run -d \
     -e KAFKA_BROKER_ID=1 \
     -e KAFKA_ZOOKEEPER_CONNECT=zookeeper1,zookeeper2,zookeeper3/kafka/default \
     -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1:9092 \
+    -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=2 \
     -e KAFKA_LOG4J_LOGGERS="kafka.controller=INFO,state.change.logger=INFO" \
     -e KAFKA_LOG4J_ROOT_LOGLEVEL=WARN \
     -e KAFKA_TOOLS_LOG4J_LOGLEVEL=ERROR \
