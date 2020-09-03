@@ -42,3 +42,6 @@ df2 = pd.DataFrame({
 print(df2)
 print(df2.dtypes)
 print(df2.tail(1))
+
+
+# TODO: implement octave: J = sum((X * theta - y) .^ 2) / 2 / m;
