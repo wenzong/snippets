@@ -7,6 +7,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/test/bufconn"
 )
@@ -60,22 +61,16 @@ func TestMain(m *testing.M) {
 
 func TestSayHelloAsync(t *testing.T) {
 	resp, err := client.SayHello(context.Background(), &HelloRequest{Name: "client", Message: "Hello, World!"})
-	if err != nil {
-		t.Fatalf("SayHello failed: %v", err)
-	}
 
-	if resp.Message != greeting {
-		t.Errorf("SayHello failed: %s should be %s", resp.Message, greeting)
-	}
+	assert.NoError(t, err, "SayHello failed: %v", err)
+
+	assert.Equal(t, greeting, resp.Message, "SayHello failed: response message should be `%s`, get `%s`", greeting, resp.Message)
 }
 
 func TestSayHelloSync(t *testing.T) {
 	resp, err := svr.SayHello(context.Background(), &HelloRequest{Name: "client", Message: "Hello, World!"})
-	if err != nil {
-		t.Fatalf("SayHello failed: %v", err)
-	}
 
-	if resp.Message != greeting {
-		t.Errorf("SayHello failed: %s should be %s", resp.Message, greeting)
-	}
+	assert.NoError(t, err, "SayHello failed: %v", err)
+
+	assert.Equal(t, greeting, resp.Message, "SayHello failed: response message should be `%s`, get `%s`", greeting, resp.Message)
 }
