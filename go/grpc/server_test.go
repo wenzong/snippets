@@ -16,12 +16,15 @@ const bufSize = 1024 * 1024
 var (
 	lis    *bufconn.Listener
 	client HelloServiceClient
+	svr    HelloServiceServer
 )
 
 func startServer() *grpc.Server {
 	lis = bufconn.Listen(bufSize)
 	s := grpc.NewServer()
-	RegisterHelloServiceServer(s, &server{})
+
+	svr = &server{}
+	RegisterHelloServiceServer(s, svr)
 
 	go func() {
 		if err := s.Serve(lis); err != nil {
@@ -55,8 +58,19 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestSayHello(t *testing.T) {
+func TestSayHelloAsync(t *testing.T) {
 	resp, err := client.SayHello(context.Background(), &HelloRequest{Name: "client", Message: "Hello, World!"})
+	if err != nil {
+		t.Fatalf("SayHello failed: %v", err)
+	}
+
+	if resp.Message != greeting {
+		t.Errorf("SayHello failed: %s should be %s", resp.Message, greeting)
+	}
+}
+
+func TestSayHelloSync(t *testing.T) {
+	resp, err := svr.SayHello(context.Background(), &HelloRequest{Name: "client", Message: "Hello, World!"})
 	if err != nil {
 		t.Fatalf("SayHello failed: %v", err)
 	}
