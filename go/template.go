@@ -18,7 +18,7 @@ dsn = "{{ $value }}"
 {{- end }}
 
 [redis]
-{{- range $key, $value := .DB }}
+{{- range $key, $value := .Redis }}
 [redis.{{ $key }}]
 addr = "{{ $value}}"
 {{- end }}
