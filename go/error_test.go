@@ -1,11 +1,10 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 
-	pkgerrors "github.com/pkg/errors"
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -79,9 +78,9 @@ func TestErrorsUnwrap(t *testing.T) {
 	assert.Equal(t, err, errors.Unwrap(ErrorFrom(err)))
 }
 
-// github.com/pkg/errors.{New,Wrap,Cause}
-func TestPkgErrorsWrap(t *testing.T) {
-	err := pkgerrors.New("my")
+// errors.{Wrap,Cause}
+func TesterrorsWrap(t *testing.T) {
+	err := errors.New("my")
 
-	assert.Equal(t, err, pkgerrors.Cause(pkgerrors.Wrap(err, "wrapped")))
+	assert.Equal(t, err, errors.Cause(errors.Wrap(err, "wrapped")))
 }
