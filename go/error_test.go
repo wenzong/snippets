@@ -23,6 +23,8 @@ func ErrorFrom(err error) error {
 	}
 }
 
+var ErrMark = errors.New("mark error as MyError")
+
 // MyError
 type MyError struct {
 	wrapped error
@@ -34,6 +36,10 @@ func (e *MyError) Error() string {
 
 func (e *MyError) Unwrap() error {
 	return e.wrapped
+}
+
+func (e *MyError) Is(target error) bool {
+	return target == ErrMark
 }
 
 // errors.As
@@ -61,6 +67,8 @@ func TestErrorsAs(t *testing.T) {
 
 		var err *MyError
 		assert.True(t, errors.As(tc.err, &err))
+
+		assert.True(t, errors.Is(tc.err, ErrMark))
 	}
 }
 
