@@ -1,0 +1,18 @@
+version: v1beta1
+build:
+  roots:
+    - api/pb/
+lint:
+  use:
+    - DEFAULT
+    - STYLE_DEFAULT
+    - COMMENTS
+    - UNARY_RPC
+  except:
+    - PACKAGE_DIRECTORY_MATCH
+    - PACKAGE_VERSION_SUFFIX     # `package pb`    instead of `package pb.v1`
+    # - SERVICE_SUFFIX             # `service Users` insteaf of `service UserService`
+    # - RPC_RESPONSE_STANDARD_NAME # `return (User)` instead of `return (xxxResponse)`
+breaking:
+  use:
+    - WIRE_JSON

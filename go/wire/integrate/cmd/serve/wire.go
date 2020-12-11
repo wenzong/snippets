@@ -1,6 +1,6 @@
 // +build wireinject
 
-package http
+package serve
 
 import (
 	"github.com/google/wire"
@@ -9,7 +9,14 @@ import (
 	"github.com/wenzong/demo/infra/app"
 	"github.com/wenzong/demo/infra/config"
 	"github.com/wenzong/demo/infra/db"
+	"github.com/wenzong/demo/infra/grpc"
 	"github.com/wenzong/demo/infra/http"
+)
+
+var ProviderSet = wire.NewSet(
+	Router,
+	gRPCServerOptions,
+	gRPCRegisterServiceFn,
 )
 
 var Set = wire.NewSet(
@@ -18,7 +25,8 @@ var Set = wire.NewSet(
 	db.ProviderSet,
 	user.ProviderSet,
 	http.ProviderSet,
-	Router,
+	grpc.ProviderSet,
+	ProviderSet,
 )
 
 func App() *app.App {

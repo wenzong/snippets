@@ -1,5 +1,15 @@
+.PHONY: codegen proto wire
+codegen: proto wire
+
+buf:
+	buf --config api/pb/buf.yaml check lint
+
+proto: buf
+	protoc -I api/pb/ --go_out=plugins=grpc:api/pb api/pb/*.proto
+
 wire:
 	wire ./...
 
-http: wire
-	go run main.go http
+.PHONY: serve
+serve: codegen
+	go run main.go serve

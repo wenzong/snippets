@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb;
+
+import "timestamp.proto";
+option go_package = "pb";
+
+// 用户信息
+message User {
+    // 用户 ID
+    int64 user_id = 1;
+    // 创建时间
+    Timestamp created_at = 2;
+    // 更新时间
+    Timestamp updated_at = 3;
+}

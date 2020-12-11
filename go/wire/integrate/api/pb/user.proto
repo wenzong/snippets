@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package pb;
+
+import "user_model.proto";
+option go_package = "pb";
+
+// UserService 是用户信息相关 API
+service UserService {
+    // 获取用户信息
+    rpc Get(GetRequest) returns (GetResponse);
+}
+
+// 请求
+message GetRequest{
+    // 用户 ID
+    int64 user_id = 1;
+}
+
+// 响应
+message GetResponse{
+    // 用户信息
+    User user = 1;
+}

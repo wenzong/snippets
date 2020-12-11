@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "pb";
+
+// Timestamp wraps google.protobuf.Timestamp and provide Scan/Value
+message Timestamp{
+    // Wrapped google.protobuf.Timestamp
+    google.protobuf.Timestamp timestamp = 1;
+}

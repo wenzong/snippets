@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/wenzong/demo/cmd/http"
+	"github.com/wenzong/demo/cmd/serve"
 )
 
 func main() {
@@ -21,5 +21,5 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(http.Command)
+	rootCmd.AddCommand(serve.Command)
 }

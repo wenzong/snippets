@@ -22,7 +22,7 @@ func NewOption(v *viper.Viper) (o *Option) {
 }
 
 func NewServer(o *Option, h http.Handler) *http.Server {
-	log.Printf("Listening on %s", o.Listen)
+	log.Printf("HTTP listening on %s", o.Listen)
 	return &http.Server{
 		Addr:    o.Listen,
 		Handler: h,

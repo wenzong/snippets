@@ -19,14 +19,11 @@ func NewDefaultConn(v *viper.Viper) *DefaultConn {
 	config := v.Sub("db.default")
 
 	dsn := config.GetString("dsn")
-	maxOpenConns := config.GetInt("max_open_conns")
 
 	conn, err := dbr.Open("mysql", dsn, nil)
 	if err != nil {
 		panic(errors.Wrapf(err, "Parse MySQL DSN failed: %s", dsn))
 	}
-
-	conn.SetMaxOpenConns(maxOpenConns)
 
 	return &DefaultConn{conn}
 }
