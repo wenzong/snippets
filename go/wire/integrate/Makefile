@@ -10,6 +10,10 @@ proto: buf
 wire:
 	wire ./...
 
+.PHONY: e2etest
+e2etest: codegen
+	go test -v ./test/
+
 .PHONY: serve
 serve: codegen
 	go run main.go serve

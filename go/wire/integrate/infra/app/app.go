@@ -38,32 +38,40 @@ func (app *App) Run(ctx context.Context) {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-	go func() {
-		if err := app.httpServer.ListenAndServe(); err != http.ErrServerClosed {
-			panic(errors.Wrap(err, "HTTP server error"))
-		}
-		log.Println("HTTP Server stopped")
-	}()
+	if app.httpServer != nil {
+		go func() {
+			if err := app.httpServer.ListenAndServe(); err != http.ErrServerClosed {
+				panic(errors.Wrap(err, "HTTP server error"))
+			}
+			log.Println("HTTP Server stopped")
+		}()
+	}
 
-	go func() {
-		if err := app.grpcServer.Serve(app.listener); err != nil {
-			panic(errors.Wrap(err, "gRPC server error"))
-		}
-		log.Println("gRPC Server stopped")
-	}()
+	if app.grpcServer != nil {
+		go func() {
+			if err := app.grpcServer.Serve(app.listener); err != nil {
+				panic(errors.Wrap(err, "gRPC server error"))
+			}
+			log.Println("gRPC Server stopped")
+		}()
+	}
 
 	<-quit
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	if err := app.httpServer.Shutdown(ctx); err != nil {
-		log.Fatalf("HTTP Server shutdown error: %+v", err)
+	if app.httpServer != nil {
+		if err := app.httpServer.Shutdown(ctx); err != nil {
+			log.Fatalf("HTTP Server shutdown error: %+v", err)
+		}
+		log.Println("HTTP Server exit.")
 	}
-	log.Println("HTTP Server exit.")
 
-	app.grpcServer.GracefulStop()
-	log.Println("gRPC Server exit.")
+	if app.grpcServer != nil {
+		app.grpcServer.GracefulStop()
+		log.Println("gRPC Server exit.")
+	}
 
 	log.Println("App stopped")
 }
