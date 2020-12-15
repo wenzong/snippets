@@ -17,3 +17,8 @@ e2etest: codegen
 .PHONY: serve
 serve: codegen
 	go run main.go serve
+
+.PHONY: docker
+docker:
+	docker build -f build/Dockerfile -t demo:latest .
+	docker run -it --rm -v `pwd`/config.toml:/config.toml demo:latest app serve
