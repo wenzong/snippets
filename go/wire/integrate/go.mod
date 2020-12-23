@@ -17,6 +17,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.6.1
 	github.com/testcontainers/testcontainers-go v0.9.0
+	go.uber.org/zap v1.10.0
 	google.golang.org/grpc v1.34.0
 	google.golang.org/protobuf v1.25.0
 )

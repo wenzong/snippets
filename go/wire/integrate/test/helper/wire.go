@@ -12,6 +12,7 @@ import (
 	"github.com/wenzong/demo/infra/app"
 	"github.com/wenzong/demo/infra/db"
 	infragrpc "github.com/wenzong/demo/infra/grpc"
+	"github.com/wenzong/demo/infra/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/test/bufconn"
 )
@@ -37,9 +38,10 @@ var ProviderSet = wire.NewSet(
 )
 
 var Set = wire.NewSet(
-	// config.ProviderSet,
 	app.ProviderSet,
+	// config.ProviderSet,
 	db.ProviderSet,
+	log.ProviderSet,
 	user.ProviderSet,
 	// http.ProviderSet,
 	// grpc.ProviderSet,

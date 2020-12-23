@@ -12,6 +12,7 @@ import (
 	"github.com/wenzong/demo/infra/app"
 	"github.com/wenzong/demo/infra/db"
 	"github.com/wenzong/demo/infra/grpc"
+	"github.com/wenzong/demo/infra/log"
 	grpc2 "google.golang.org/grpc"
 	"google.golang.org/grpc/test/bufconn"
 	"net"
@@ -27,7 +28,8 @@ func App(t *testing.T) (*app.App, func()) {
 	defaultConn := db.NewDefaultConn(viper)
 	repository := user.NewRepository(defaultConn)
 	service := user.NewService(repository)
-	userServer := user.NewServer(service)
+	v2 := log.CtxLogger()
+	userServer := user.NewServer(service, v2)
 	registerServiceFunc := gRPCRegisterServiceFn(userServer)
 	grpcServer := grpc.NewServer(v, registerServiceFunc)
 	listener := NewTestListener()
@@ -61,4 +63,4 @@ var ProviderSet = wire.NewSet(
 	NewNilHTTPServer, wire.Bind(new(net.Listener), new(*bufconn.Listener)), gRPCRegisterServiceFn,
 )
 
-var Set = wire.NewSet(app.ProviderSet, db.ProviderSet, user.ProviderSet, ProviderSet)
+var Set = wire.NewSet(app.ProviderSet, db.ProviderSet, log.ProviderSet, user.ProviderSet, ProviderSet)

@@ -13,11 +13,12 @@ import (
 	"github.com/wenzong/demo/infra/db"
 	"github.com/wenzong/demo/infra/grpc"
 	"github.com/wenzong/demo/infra/http"
+	"github.com/wenzong/demo/infra/log"
 )
 
 // Injectors from wire.go:
 
-func App() *app.App {
+func App() (*app.App, func(), error) {
 	viper := config.NewConfig()
 	option := http.NewOption(viper)
 	defaultConn := db.NewDefaultConn(viper)
@@ -26,13 +27,17 @@ func App() *app.App {
 	controller := user.NewController(service)
 	handler := Router(controller)
 	server := http.NewServer(option, handler)
-	v := gRPCServerOptions()
-	userServer := user.NewServer(service)
+	logger, cleanup := log.New()
+	v := gRPCServerOptions(logger)
+	v2 := log.CtxLogger()
+	userServer := user.NewServer(service, v2)
 	registerServiceFunc := gRPCRegisterServiceFn(userServer)
 	grpcServer := grpc.NewServer(v, registerServiceFunc)
 	listener := grpc.NewListener(viper)
 	appApp := app.NewApp(server, grpcServer, listener)
-	return appApp
+	return appApp, func() {
+		cleanup()
+	}, nil
 }
 
 // wire.go:
@@ -43,4 +48,4 @@ var ProviderSet = wire.NewSet(
 	gRPCRegisterServiceFn,
 )
 
-var Set = wire.NewSet(config.ProviderSet, app.ProviderSet, db.ProviderSet, user.ProviderSet, http.ProviderSet, grpc.ProviderSet, ProviderSet)
+var Set = wire.NewSet(app.ProviderSet, config.ProviderSet, db.ProviderSet, grpc.ProviderSet, http.ProviderSet, log.ProviderSet, user.ProviderSet, ProviderSet)

@@ -11,6 +11,7 @@ import (
 	"github.com/wenzong/demo/infra/db"
 	"github.com/wenzong/demo/infra/grpc"
 	"github.com/wenzong/demo/infra/http"
+	"github.com/wenzong/demo/infra/log"
 )
 
 var ProviderSet = wire.NewSet(
@@ -20,15 +21,17 @@ var ProviderSet = wire.NewSet(
 )
 
 var Set = wire.NewSet(
-	config.ProviderSet,
 	app.ProviderSet,
+	config.ProviderSet,
 	db.ProviderSet,
-	user.ProviderSet,
-	http.ProviderSet,
 	grpc.ProviderSet,
+	http.ProviderSet,
+	log.ProviderSet,
+	// biz
+	user.ProviderSet,
 	ProviderSet,
 )
 
-func App() *app.App {
+func App() (*app.App, func(), error) {
 	panic(wire.Build(Set))
 }
