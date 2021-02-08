@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>TODO(vue)</title>
+    <script type="text/javascript" src="https://unpkg.com/vue@next"></script>
+    <style>
+      #todo-list input.edit {
+        display: none; /* Hides input box*/
+      }
+      #todo-list .editing label {
+        display: none; /* Hides label text when .editing*/
+      }
+      #todo-list .editing input.edit {
+        display: inline; /* Shows input text box when .editing*/
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <header id="header">
+        <h1 v-bind:title="toast">Todos</h1>
+        <h2 v-if='seen'>you should see this.</h2>
+        <input placeholder="What needs to be done?" v-model="message" @keyup.enter='addTodo'>
+      </header>
+      <section id="main">
+        <ul id="todo-list">{{ message }}</ul>
+        <ol>
+          <todo-item
+            v-for="item in todos"
+            v-bind:todo="item"
+            v-bind:key="item.id"
+            @remove-todo="removeTodo(item)">
+          </todo-item>
+        </ol>
+      </section>
+    </div>
+
+    <script>
+      var STORAGE_KEY = 'todos';
+      todoStorage = {
+        fetch: function () {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        },
+        save: function (todos) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+        }
+      };
+
+      const ToDoApp = {
+        data() {
+          return {
+            message: 'TODO',
+            toast: 'Todos(from vue)',
+            seen: true,
+            todos: todoStorage.fetch()
+          }
+        },
+        watch: {
+          todos: {
+            deep: true,
+            handler: todoStorage.save
+          }
+        },
+        methods: {
+          addTodo: function () {
+            this.todos.push({ text: this.message})
+          },
+          removeTodo: function(todo) {
+            var index = this.todos.indexOf(todo);
+            if (index !== -1) {
+              this.todos.splice(index, 1);
+            }
+          }
+        }
+      }
+
+      const app = Vue.createApp(ToDoApp);
+      app.component('todo-item', {
+        props: ['todo'],
+        template: `<li>{{ todo.text }}<button class="destroy" @click="$emit('remove-todo')">remove</button></li>`,
+      });
+      app.mount('#container');
+
+    </script>
+  </body>
+</html>
