@@ -1,0 +1,40 @@
+' Class Diagram '
+
+@startuml
+title UML Cheatsheet(Class Diagram)
+package "package foo" {
+    interface IFoo {
+        + foo()
+    }
+
+    class Foo {
+        - property int
+        + foo()
+    }
+
+    class ExtendedFoo {
+        - property1 int
+        + foo()
+    }
+
+    IFoo <|.. ExtendedFoo: implement
+    IFoo <|.. Foo: implement
+    Foo  <|-- ExtendedFoo: inherit
+
+}
+
+package "package bar" {
+    class Bar {
+        + bar()
+    }
+}
+
+"package foo" -- "package bar": Association
+
+Foo --> Bar: One way Association
+
+A o-- B: Aggregation\n(A "has-a" instance of B, B can survive if A is disposed)
+
+X *-- Y: Composition\n(X has an instance of Y, Y cannot exist without X)
+
+@enduml
