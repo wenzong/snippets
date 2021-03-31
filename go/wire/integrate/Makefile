@@ -2,7 +2,7 @@
 codegen: proto wire
 
 buf:
-	buf --config api/pb/buf.yaml check lint
+	buf --config api/pb/buf.yaml lint
 
 proto: buf
 	protoc -I api/pb/ --go_out=plugins=grpc:api/pb api/pb/*.proto
@@ -10,7 +10,10 @@ proto: buf
 wire:
 	wire ./...
 
-.PHONY: e2etest
+.PHONY: e2etest vet
+vet:
+	go vet ./...
+
 e2etest: codegen
 	go test -v ./test/
 

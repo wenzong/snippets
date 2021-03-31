@@ -3,7 +3,7 @@ syntax = "proto3";
 package pb;
 
 import "user_model.proto";
-option go_package = "pb";
+option go_package = ".;pb";
 
 // UserService 是用户信息相关 API
 service UserService {
