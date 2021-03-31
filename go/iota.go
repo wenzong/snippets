@@ -2,13 +2,49 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/pkg/errors"
 )
+
+type WrappedBizError struct {
+	wrapped error
+	Code    uint
+	Msg     string
+}
+
+func (e *WrappedBizError) Error() string {
+	return errors.Wrap(e.wrapped, e.Msg).Error()
+}
 
 //go:generate stringer -type=BizError -output=iota_stringer.go
 type BizError uint
 
 func (e BizError) Error() string {
 	return e.String()[3:]
+}
+
+func (e BizError) Newf(template string, args ...interface{}) error {
+	return &WrappedBizError{
+		wrapped: errors.Errorf(template, args...),
+		Code:    uint(e),
+		Msg:     e.Error(),
+	}
+}
+
+func (e BizError) Wrap(err error) error {
+	return &WrappedBizError{
+		wrapped: err,
+		Code:    uint(e),
+		Msg:     e.Error(),
+	}
+}
+
+func (e BizError) Wrapf(err error, template string, args ...interface{}) error {
+	return &WrappedBizError{
+		wrapped: errors.Wrapf(err, template, args...),
+		Code:    uint(e),
+		Msg:     e.Error(),
+	}
 }
 
 const base = 10000
@@ -47,4 +83,8 @@ func main() {
 	} {
 		fmt.Printf("%d => %s\n", err, err)
 	}
+
+	fmt.Println(ErrUserUpdateNameFailed.Newf("%s", "ctx"))
+	fmt.Println(ErrUserUpdateNameFailed.Wrap(errors.New("cause")))
+	fmt.Println(ErrUserUpdateNameFailed.Wrapf(errors.New("cause"), "%s", "ctx"))
 }
