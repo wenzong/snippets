@@ -23,7 +23,6 @@ type App struct {
 	// NOTE: more goroutines maintained here
 	//
 	// viper.ReadRemoteConfig/WatchRemoteConfig
-	// amqp auto reconnect
 }
 
 func NewApp(s *http.Server, g *grpc.Server, l net.Listener) *App {
