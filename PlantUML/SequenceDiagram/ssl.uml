@@ -1,0 +1,279 @@
+   TLS - Transport Layer Secure
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+                                                                                 TLS - Transport Layer Secure
+
+                                                             ┌──────┐                                                   ┌──────┐
+                                                             │client│                                                   │server│
+                                                             └──┬───┘                                                   └──┬───┘
+                                                                │                       TCP handshake                      │
+                                                                │ <────────────────────────────────────────────────────────>
+                                                                │                                                          │
+                                                                │                                                          │
+                               ╔═════════╤══════════════════════╪══════════════════════════════════════════════════════════╪═════════════════════════════════╗
+                               ║ TLS1.2  │                      │                                                          │                                 ║
+                               ╟─────────┘                      │                                                          │                                 ║
+                               ║                   ╔════════════╪╤═════════════════════════════════════════════════════════╪═════════════╗                   ║
+                               ║                   ║ RTT1 - OUT  │                                                         │             ║                   ║
+                               ║                   ╟─────────────┘               Client Hello(random-client)               │             ║                   ║
+                               ║                   ║            │ ─────────────────────────────────────────────────────────>             ║                   ║
+                               ║                   ╚════════════╪══════════════════════════════════════════════════════════╪═════════════╝                   ║
+                               ║                                │                                                          │                                 ║
+                               ║                                │                                                          │                                 ║
+                               ║         ╔════════════╤═════════╪══════════════════════════════════════════════════════════╪═══════════════════════╗         ║
+                               ║         ║ RTT1 - IN  │         │                                                          │                       ║         ║
+                               ║         ╟────────────┘         │                Server Hello(random-server)               │                       ║         ║
+                               ║         ║                      │ <─────────────────────────────────────────────────────────                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │                        Certificate                       │                       ║         ║
+                               ║         ║                      │ <─────────────────────────────────────────────────────────                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │                    Server Key Exchange                   │                       ║         ║
+                               ║         ║                      │ <─────────────────────────────────────────────────────────                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║         ╔════════════╪═══╤══════════════════════════════════════════════════════╪═════════════╗         ║         ║
+                               ║         ║         ║ "TWO-WAY SSL"  │                                                      │             ║         ║         ║
+                               ║         ║         ╟────────────────┘                Certificate Request                   │             ║         ║         ║
+                               ║         ║         ║            │ <─────────────────────────────────────────────────────────             ║         ║         ║
+                               ║         ║         ╚════════════╪══════════════════════════════════════════════════════════╪═════════════╝         ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │                     Server Hello Done                    │                       ║         ║
+                               ║         ║                      │ <─────────────────────────────────────────────────────────                       ║         ║
+                               ║         ╚══════════════════════╪══════════════════════════════════════════════════════════╪═══════════════════════╝         ║
+                               ║                                │                                                          │                                 ║
+                               ║                                │                                                          │                                 ║
+                               ║         ╔═════════════╤════════╪══════════════════════════════════════════════════════════╪═══════════════════════╗         ║
+                               ║         ║ RTT2 - OUT  │        │                                                          │                       ║         ║
+                               ║         ╟─────────────┘        │────┐                                                     │                       ║         ║
+                               ║         ║                      │    │ Validate Server Certificate                         │                       ║         ║
+                               ║         ║                      │<───┘                                                     │                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │────┐                                                     │                       ║         ║
+                               ║         ║                      │    │ pre-master                                          │                       ║         ║
+                               ║         ║                      │<───┘                                                     │                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║         ╔════════════╪═══╤══════════════════════════════════════════════════════╪═════════════╗         ║         ║
+                               ║         ║         ║ "TWO-WAY SSL"  │                                                      │             ║         ║         ║
+                               ║         ║         ╟────────────────┘                    Certificate                       │             ║         ║         ║
+                               ║         ║         ║            │ ─────────────────────────────────────────────────────────>             ║         ║         ║
+                               ║         ║         ╚════════════╪══════════════════════════════════════════════════════════╪═════════════╝         ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │        Client Key Exchange: (encrypt(pre-master))        │                       ║         ║
+                               ║         ║                      │ ─────────────────────────────────────────────────────────>                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │                    Change Cipher Spec                    │                       ║         ║
+                               ║         ║                      │ ─────────────────────────────────────────────────────────>                       ║         ║
+                               ║         ║                      │                                                          │                       ║         ║
+                               ║         ║                      │                         Finished                         │                       ║         ║
+                               ║         ║                      │ ─────────────────────────────────────────────────────────>                       ║         ║
+                               ║         ╚══════════════════════╪══════════════════════════════════════════════════════════╪═══════════════════════╝         ║
+                               ║                                │                                                          │                                 ║
+                               ║                                │                                                          │                                 ║
+                               ║                   ╔════════════╤══════════════════════════════════════════════════════════╪═════════════╗                   ║
+                               ║                   ║ RTT2 - IN  │                                                          │             ║                   ║
+                               ║                   ╟────────────┘                         Finished                         │             ║                   ║
+                               ║                   ║            │ <─────────────────────────────────────────────────────────             ║                   ║
+                               ║                   ╚════════════╪══════════════════════════════════════════════════════════╪═════════════╝                   ║
+                               ║                                │                                                          │                                 ║
+                               ║                                │ communication(random-client x random-server x pre-master)│                                 ║
+                               ║                                │ <────────────────────────────────────────────────────────>                                 ║
+                               ╚════════════════════════════════╪══════════════════════════════════════════════════════════╪═════════════════════════════════╝
+                                                                │                                                          │
+                                                                │                                                          │
+          ╔═════════╤═══════════════════════════════════════════╪══════════════════════════════════════════════════════════╪════════════════════════════════════════════════════════╗
+          ║ TLS1.3  │                                           │                                                          │                                                        ║
+          ╟─────────┘                                           │                                                          │                                                        ║
+          ║         ╔═══════╤═══════════════════════════════════╪══════════════════════════════════════════════════════════╪══════════════════════════════════════════════╗         ║
+          ║         ║ RTT1  │                                   │                                                          │                                              ║         ║
+          ║         ╟──────╔════════════════════════════════════╧══════════════════════════════════════╗                   │                                              ║         ║
+          ║         ║      ║Version                                                                   ░║                   │                                              ║         ║
+          ║         ║      ║Client Random                                                              ║                   │                                              ║         ║
+          ║         ║      ║Cipher Suite                                                               ║                   │                                              ║         ║
+          ║         ║      ║Extension: supported_versions, supported_groups, key_share(Client Params)  ║                   │                                              ║         ║
+          ║         ║      ╚════════════════════════════════════╤══════════════════════════════════════╝                   │                                              ║         ║
+          ║         ║                     ╔═════════════════════╧═══════════════════════╗                                  │                                              ║         ║
+          ║         ║                     ║TLS Session Identifer or TLS Session Ticket ░║                                  │                                              ║         ║
+          ║         ║                     ╚═════════════════════╤═══════════════════════╝                                  │                                              ║         ║
+          ║         ║                                           │                       Client Hello                       │                                              ║         ║
+          ║         ║                                           │ ─────────────────────────────────────────────────────────>                                              ║         ║
+          ║         ║                                           │                                                          │                                              ║         ║
+          ║         ║                                           │                  ╔═══════════════════════════════════════╧════════════════════════════════════════╗     ║         ║
+          ║         ║                                           │                  ║pre-master = ECDHE(Client Random, Client Params, Server Random, Server Params) ░║     ║         ║
+          ║         ║                                           │                  ╚═══════════════════════════════════════╤════════════════════════════════════════╝     ║         ║
+          ║         ║                                           │                                        ╔═════════════════╧═══════════════════╗                          ║         ║
+          ║         ║                                           │                                        ║Version                             ░║                          ║         ║
+          ║         ║                                           │                                        ║Server Random                        ║                          ║         ║
+          ║         ║                                           │                                        ║Cipher Suite                         ║                          ║         ║
+          ║         ║                                           │                                        ║Extension: key_share(Server Params)  ║                          ║         ║
+          ║         ║                                           │                                        ╚═════════════════╤═══════════════════╝                          ║         ║
+          ║         ║                                           │                       Server Hello                       │                                              ║         ║
+          ║         ║                                           │ <─────────────────────────────────────────────────────────                                              ║         ║
+          ║         ║                                           │                                                          │                                              ║         ║
+          ║         ║                                           │                    Change Cipher Spec                    │                                              ║         ║
+          ║         ║                                           │ <─────────────────────────────────────────────────────────                                              ║         ║
+          ║         ║                                           │                                                          │                                              ║         ║
+          ║         ║                                           │             encrypt(pre-master)(Extenstions)             │                                              ║         ║
+          ║         ║                                           │ <─────────────────────────────────────────────────────────                                              ║         ║
+          ║         ║                                           │                                                          │                                              ║         ║
+          ║         ║                                           │             encrypt(pre-master)(Certificate)             │                                              ║         ║
+          ║         ║                                           │ <─────────────────────────────────────────────────────────                                              ║         ║
+          ║         ║                                           │                                                          │                                              ║         ║
+          ║         ║                                           │          encrypt(pre-master)(Certificate Verify)         │                                              ║         ║
+          ║         ║                                           │ <─────────────────────────────────────────────────────────                                              ║         ║
+          ║         ║                                           │                                                          │                                              ║         ║
+          ║         ║                                           │               encrypt(pre-master)(Finished)              │                                              ║         ║
+          ║         ║                                           │ <─────────────────────────────────────────────────────────                                              ║         ║
+          ║         ╚═══════════════════════════════════════════╪══════════════════════════════════════════════════════════╪══════════════════════════════════════════════╝         ║
+          ║                                                     │                                                          │                                                        ║
+          ║             ╔═══════════════════════════════════════╧════════════════════════════════════════╗                 │                                                        ║
+          ║             ║pre-master = ECDHE(Client Random, Client Params, Server Random, Server Params) ░║                 │                                                        ║
+          ║             ╚═══════════════════════════════════════╤════════════════════════════════════════╝                 │                                                        ║
+          ║                                                     │                    Change Cipher Spec                    │                                                        ║
+          ║                                                     │ ─────────────────────────────────────────────────────────>                                                        ║
+          ║                                                     │                                                          │                                                        ║
+          ║                                                     │               encrypt(pre-master)(Finished)              │                                                        ║
+          ║                                                     │ ─────────────────────────────────────────────────────────>                                                        ║
+          ║                                                     │                                                          │                                                        ║
+          ║                                                     │               encrypt(pre-master)(content)               │                                                        ║
+          ║                                                     │ <────────────────────────────────────────────────────────>                                                        ║
+          ╚═════════════════════════════════════════════════════╪══════════════════════════════════════════════════════════╪════════════════════════════════════════════════════════╝
+                                                             ┌──┴───┐                                                   ┌──┴───┐
+                                                             │client│                                                   │server│
+                                                             └──────┘                                                   └──────┘
+
+@startuml
+
+' TLS1.2
+'
+' $ curl -I -v https://www.baidu.com
+' *   Trying 180.101.49.11:443...
+' * Connected to www.baidu.com (180.101.49.11) port 443 (#0)
+' * ALPN, offering h2
+' * ALPN, offering http/1.1
+' * TLSv1.3 (OUT), TLS handshake, Client hello (1):
+' * TLSv1.3 (IN), TLS handshake, Server hello (2):
+' * TLSv1.2 (IN), TLS handshake, Certificate (11):
+' * TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+' * TLSv1.2 (IN), TLS handshake, Server finished (14):
+' * TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+' * TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+' * TLSv1.2 (OUT), TLS handshake, Finished (20):
+' * TLSv1.2 (IN), TLS handshake, Finished (20):
+' * SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+' * ALPN, server accepted to use http/1.1
+' * Server certificate:
+' *  subject: C=CN; ST=beijing; L=beijing; OU=service operation department; O=Beijing Baidu Netcom Science Technology Co., Ltd; CN=baidu.com
+' *  start date: Apr  2 07:04:58 2020 GMT
+' *  expire date: Jul 26 05:31:02 2021 GMT
+' *  subjectAltName: host "www.baidu.com" matched cert's "*.baidu.com"
+' *  issuer: C=BE; O=GlobalSign nv-sa; CN=GlobalSign Organization Validation CA - SHA256 - G2
+' *  SSL certificate verify ok.
+'
+' TLS1.3
+'
+' $ curl -v -I https://github.com
+' *   Trying 52.74.223.119:443...
+' * Connected to github.com (52.74.223.119) port 443 (#0)
+' * ALPN, offering h2
+' * ALPN, offering http/1.1
+' * TLSv1.3 (OUT), TLS handshake, Client hello (1):
+' * TLSv1.3 (IN), TLS handshake, Server hello (2):
+' * TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+' * TLSv1.3 (IN), TLS handshake, Certificate (11):
+' * TLSv1.3 (IN), TLS handshake, CERT verify (15):
+' * TLSv1.3 (IN), TLS handshake, Finished (20):
+' * TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+' * TLSv1.3 (OUT), TLS handshake, Finished (20):
+' * SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+' * ALPN, server accepted to use h2
+' * Server certificate:
+' *  subject: C=US; ST=California; L=San Francisco; O=GitHub, Inc.; CN=github.com
+' *  start date: Mar 25 00:00:00 2021 GMT
+' *  expire date: Mar 30 23:59:59 2022 GMT
+' *  subjectAltName: host "github.com" matched cert's "github.com"
+' *  issuer: C=US; O=DigiCert, Inc.; CN=DigiCert High Assurance TLS Hybrid ECC SHA256 2020 CA1
+' *  SSL certificate verify ok.
+' * Using HTTP2, server supports multi-use
+' * Connection state changed (HTTP/2 confirmed)
+' * Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+' * Using Stream ID: 1 (easy handle 0x7f8c9a811c00)
+' > HEAD / HTTP/2
+' > Host: github.com
+' > user-agent: curl/7.75.0
+' > accept: */*
+' * TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+' * TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+' * old SSL session ID is stale, removing
+' * Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+'
+' TODO: SSL speedup(ECC Certificate/ECDHE False Start/TLS session resumption/OCSP Stapling)
+' TODO: False Start - ALPN（Application Layer Protocol Negotiation) & Forward Secrecy(ECDHE)
+
+title TLS - Transport Layer Secure
+
+participant client
+participant server
+
+client <-> server: TCP handshake
+
+group TLS1.2
+    group RTT1 - OUT
+        client -> server: Client Hello(random-client)
+    end
+
+    group RTT1 - IN
+        client <- server: Server Hello(random-server)
+        client <- server: Certificate
+        client <- server: Server Key Exchange
+        group "two-way SSL"
+            client <- server: Certificate Request
+        end
+        client <- server: Server Hello Done
+    end
+
+    group RTT2 - OUT
+        client -> client: Validate Server Certificate
+        client -> client: pre-master
+        group "two-way SSL"
+            client -> server: Certificate
+        end
+        client -> server: Client Key Exchange: (encrypt(pre-master))
+        client -> server: Change Cipher Spec
+        client -> server: Finished
+    end
+
+    group RTT2 - IN
+        client <- server: Finished
+    end
+
+    client <-> server: communication(random-client x random-server x pre-master)
+end
+
+group TLS1.3
+    group RTT1
+        note over client: Version\nClient Random\nCipher Suite\nExtension: supported_versions, supported_groups, key_share(Client Params)
+        note over client: TLS Session Identifer or TLS Session Ticket
+
+        client -> server: Client Hello
+        note over server: pre-master = ECDHE(Client Random, Client Params, Server Random, Server Params)
+
+        note over server: Version\nServer Random\nCipher Suite\nExtension: key_share(Server Params)
+        client <- server: Server Hello
+        client <- server: Change Cipher Spec
+        client <- server: encrypt(pre-master)(Extenstions)
+        client <- server: encrypt(pre-master)(Certificate)
+        client <- server: encrypt(pre-master)(Certificate Verify)
+        client <- server: encrypt(pre-master)(Finished)
+    end
+
+    note over client: pre-master = ECDHE(Client Random, Client Params, Server Random, Server Params)
+    client -> server: Change Cipher Spec
+    client -> server: encrypt(pre-master)(Finished)
+
+    client <-> server: encrypt(pre-master)(content)
+end
+
+@enduml

@@ -1,0 +1,148 @@
+   TCP handshake & wave
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+                                 TCP handshake & wave
+
+                          ┌──────┐                 ┌──────┐
+                          │client│                 │server│
+                          └──┬───┘                 └──┬───┘
+                             │                        │
+                ╔════════════╤════════════════════════╪═════════════════════╗
+                ║ HANDSHAKE  │                        │                     ║
+                ╟────────╔════════╗                   │                     ║
+                ║        ║CLOSED ░║                   │                     ║
+                ║        ╚═══╤════╝                   │                     ║
+                ║            │                    ╔═══╧════╗                ║
+                ║            │                    ║CLOSED ░║                ║
+                ║            │                    ╚═══╤════╝                ║
+                ║            │          ╔═════════════╧═══════════════╗     ║
+                ║            │          ║bind(2)/listen(2)/accept(2) ░║     ║
+                ║            │          ╚═════════════╤═══════════════╝     ║
+                ║            │                    ╔═══╧════╗                ║
+                ║            │                    ║LISTEN ░║                ║
+                ║            │                    ╚═══╤════╝                ║
+                ║            │       SYN(seq=C)       │                     ║
+                ║            │ ───────────────────────>                     ║
+                ║            │                        │                     ║
+                ║       ╔════╧═════╗                  │                     ║
+                ║       ║SYN_SENT ░║                  │                     ║
+                ║       ╚════╤═════╝                  │                     ║
+                ║            │ SYN(seq=S)+ACK(seq=C+1)│                     ║
+                ║            │ <───────────────────────                     ║
+                ║            │                        │                     ║
+                ║            │                   ╔════╧═════╗               ║
+                ║            │                   ║SYN_RCVD ░║               ║
+                ║            │                   ╚════╤═════╝               ║
+                ║            │      ACK(seq=S+1)      │                     ║
+                ║            │ ───────────────────────>                     ║
+                ║            │                        │                     ║
+                ║      ╔═════╧═══════╗                │                     ║
+                ║      ║ESTABLISHED ░║                │                     ║
+                ║      ╚═════╤═══════╝                │                     ║
+                ║            │                  ╔═════╧═══════╗             ║
+                ║            │                  ║ESTABLISHED ░║             ║
+                ╚════════════╪══════════════════╚═════════════╝═════════════╝
+                             │                        │
+                             │      communication     │
+                             │ <─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ >
+                             │                        │
+                             │                        │
+         ╔════════╤══════════╪════════════════════════╪═════════════╗
+         ║ WAVES  │          │                        │             ║
+         ╟────────┘    ╔═════╧═══════╗                │             ║
+         ║             ║ESTABLISHED ░║                │             ║
+         ║             ╚═════╤═══════╝                │             ║
+         ║                   │                  ╔═════╧═══════╗     ║
+         ║                   │                  ║ESTABLISHED ░║     ║
+         ║                   │                  ╚═════╤═══════╝     ║
+         ║                   │       FIN(seq=C)       │             ║
+         ║                   │ ───────────────────────>             ║
+         ║                   │                        │             ║
+         ║             ╔═════╧══════╗                 │             ║
+         ║             ║FIN_WAIT_1 ░║                 │             ║
+         ║             ╚═════╤══════╝                 │             ║
+         ║                   │      ACK(seq=C+1)      │             ║
+         ║                   │ <───────────────────────             ║
+         ║                   │                        │             ║
+         ║                   │                  ╔═════╧══════╗      ║
+         ║                   │                  ║CLOSE_WAIT ░║      ║
+         ║                   │                  ╚═════╤══════╝      ║
+         ║             ╔═════╧══════╗                 │             ║
+         ║             ║FIN_WAIT_2 ░║                 │             ║
+         ║             ╚═════╤══════╝                 │             ║
+         ║                   │ FIN(seq=S),ACK(seq=C+1)│             ║
+         ║                   │ <───────────────────────             ║
+         ║                   │                        │             ║
+         ║                   │                   ╔════╧═════╗       ║
+         ║                   │                   ║LAST_ACK ░║       ║
+         ║                   │                   ╚════╤═════╝       ║
+         ║                   │      ACK(seq=S+1)      │             ║
+         ║                   │ ───────────────────────>             ║
+         ║                   │                        │             ║
+         ║              ╔════╧══════╗                 │             ║
+         ║              ║TIME_WAIT ░║                 │             ║
+         ║              ╚════╤══════╝                 │             ║
+         ║                   │                    ╔═══╧════╗        ║
+         ║                   │                    ║CLOSED ░║        ║
+         ║                   │                    ╚═══╤════╝        ║
+         ║      ╔════════════╧═════════════╗          │             ║
+         ║      ║wait 2 MSL               ░║          │             ║
+         ║      ║Maximum Segment Lifetime  ║          │             ║
+         ║      ╚════════════╤═════════════╝          │             ║
+         ║               ╔═══╧════╗                   │             ║
+         ║               ║CLOSED ░║                   │             ║
+         ╚═══════════════╚════════╝═══════════════════╪═════════════╝
+                          ┌──┴───┐                 ┌──┴───┐
+                          │client│                 │server│
+                          └──────┘                 └──────┘
+
+@startuml
+
+title TCP handshake & wave
+
+participant client
+participant server
+
+group handshake
+    note over client: CLOSED
+    note over server: CLOSED
+    note over server: bind(2)/listen(2)/accept(2)
+    note over server: LISTEN
+
+    client -> server: SYN(seq=C)
+    note over client: SYN_SENT
+
+    server -> client: SYN(seq=S)+ACK(seq=C+1)
+    note over server: SYN_RCVD
+
+    client -> server: ACK(seq=S+1)
+    note over client: ESTABLISHED
+    note over server: ESTABLISHED
+end
+
+client <--> server: communication
+
+group waves
+    note over client: ESTABLISHED
+    note over server: ESTABLISHED
+
+    client -> server: FIN(seq=C)
+    note over client: FIN_WAIT_1
+
+    server -> client: ACK(seq=C+1)
+    note over server: CLOSE_WAIT
+    note over client: FIN_WAIT_2
+
+    server -> client: FIN(seq=S),ACK(seq=C+1)
+    note over server: LAST_ACK
+
+    client -> server: ACK(seq=S+1)
+    note over client: TIME_WAIT
+    note over server: CLOSED
+    note over client: wait 2 MSL\nMaximum Segment Lifetime
+
+    note over client: CLOSED
+end
+
+@enduml
