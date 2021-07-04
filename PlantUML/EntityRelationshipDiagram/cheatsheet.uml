@@ -1,0 +1,84 @@
+   Cheatsheet(Entity Relationship)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+                  ,------------------------.
+                  |user                    |
+                  |------------------------|
+                  |<b><u>id</u></b> INTEGER|
+                  |------------------------|
+                  |                        |
+                  `------------------------'
+
+
+                                 ,------------------------.
+,-----------------------------.  |user_goods              |
+|user_level                   |  |------------------------|
+|-----------------------------|  |<b><u>id</u></b> INTEGER|
+|<b><u>user_id</u></b> INTEGER|  |user_id INTEGER         |
+|level INTEGER                |  |goods_id INTEGER        |
+|created_at TIMESTAMP         |  |created_at TIMESTAMP    |
+|updated_at TIMESTAMP         |  |updated_at TIMESTAMP    |
+|-----------------------------|  |expired_at TIMESTAMP    |
+|                             |  |------------------------|
+`-----------------------------'  |                        |
+                                 `------------------------'
+                                              |
+                                 ,------------------------.
+                                 |goods                   |
+                                 |------------------------|
+                                 |<b><u>id</u></b> INTEGER|
+                                 |...                     |
+                                 |------------------------|
+                                 |                        |
+                                 `------------------------'
+
+@startuml
+' Entity Relationship Diagram '
+'
+' + https://plantuml.com/ie-diagram
+' + https://gist.github.com/QuantumGhost/0955a45383a0b6c0bc24f9654b3cb561
+
+title Cheatsheet(Entity Relationship)
+
+skinparam monochrome true
+skinparam handwritten true
+
+!define table(name, desc) entity name as "name\ndesc" << (T,#FFAAAA) >>
+!define primary(x) <b><u>x</u></b>
+!define unique(x) <color:green><b>x</b></color>
+!define not_null(x) <u>x</u>
+hide empty members
+
+' entities
+table(user, "用户") {
+    primary(id) INTEGER
+}
+
+table(user_level, "用户等级") {
+    primary(user_id) INTEGER
+    level INTEGER
+    created_at TIMESTAMP
+    updated_at TIMESTAMP
+}
+
+table(user_goods, "用户物品") {
+    primary(id) INTEGER
+    user_id INTEGER
+    goods_id INTEGER
+    created_at TIMESTAMP
+    updated_at TIMESTAMP
+    expired_at TIMESTAMP
+}
+
+table(goods, "物品") {
+    primary(id) INTEGER
+    ...
+}
+
+' relationships
+user "1" -- "1" user_level
+user "1" -- "N" user_goods
+user_goods "N" -- "1" goods
+
+@enduml
