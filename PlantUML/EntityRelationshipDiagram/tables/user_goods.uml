@@ -1,0 +1,12 @@
+@startuml
+
+table(user_goods, "用户物品") {
+    primary(id) INTEGER
+    user_id INTEGER
+    goods_id INTEGER
+    created_at TIMESTAMP
+    updated_at TIMESTAMP
+    expired_at TIMESTAMP
+}
+
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+
+skinparam monochrome true
+
+!define table(name, desc) entity name as "name\ndesc" << (T,#FFAAAA) >>
+!define primary(x) <b><u>x</u></b>
+!define unique(x) <color:green><b>x</b></color>
+!define not_null(x) <u>x</u>
+hide empty members
+
+!include tables/user.uml
+!include tables/user_goods.uml
+
+user "1" -- "N" user_goods
+
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+
+table(user, "用户") {
+    primary(id) INTEGER
+}
+
+@enduml
