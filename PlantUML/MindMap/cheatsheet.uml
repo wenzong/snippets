@@ -1,0 +1,16 @@
+'no-preview
+
+@startmindmap
+
+* OS
+ * Linux
+  * RedHat
+  * Debian
+  * Gentoo
+ * Unix
+  * FreeBSD
+  * OpenBSD
+  * Darwin
+ * Windows
+
+@endmindmap

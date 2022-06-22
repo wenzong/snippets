@@ -1,0 +1,52 @@
+@startuml
+
+' skinparam
+' skinparam actorStyle awesome/Hollow
+
+' actor
+actor :Actor alias: as actor_alias
+
+:Actor:
+
+
+' usecase
+usecase (Usecase alias) as usecase_alias
+
+(Usecase)
+
+
+' connections
+Actor --> Usecase: connection
+
+actor_alias --> usecase_alias: connection
+
+
+' package
+package CasePackage {
+    (Case 1)
+
+    (Case 2)
+}
+
+rectangle ActorPackage {
+    :Actor 1:
+
+    :Actor 2:
+}
+
+
+' Extension
+:User: <|-- :Admin: : Admin extends User
+
+:IUser: <|.. :User: : User implment IUser
+
+
+
+' ' json
+' json JSON {
+'    "fruit": "Apple",
+'    "size": "Large",
+'    "color": ["Red", "Green"]
+' }
+
+@enduml
