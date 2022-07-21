@@ -3,8 +3,8 @@ module github.com/wenzong/demo
 go 1.15
 
 require (
-	github.com/go-redis/cache/v8 v8.4.0 // indirect
-	github.com/go-redis/redis/v8 v8.4.4 // indirect
+	github.com/go-redis/cache/v8 v8.4.0
+	github.com/go-redis/redis/v8 v8.4.4
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gocraft/dbr/v2 v2.7.1
 	github.com/golang/protobuf v1.5.2
@@ -12,9 +12,9 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
-	github.com/jolestar/go-commons-pool/v2 v2.1.1 // indirect
+	github.com/jolestar/go-commons-pool/v2 v2.1.1
 	github.com/magiconair/properties v1.8.5 // indirect
-	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/mitchellh/mapstructure v1.4.1
 	github.com/onsi/ginkgo v1.15.2
 	github.com/onsi/gomega v1.10.4
 	github.com/pelletier/go-toml v1.8.1 // indirect
@@ -26,7 +26,7 @@ require (
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/viper v1.7.1
-	github.com/streadway/amqp v1.0.0 // indirect
+	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.6.1
 	github.com/testcontainers/testcontainers-go v0.9.0
 	go.uber.org/multierr v1.6.0 // indirect
