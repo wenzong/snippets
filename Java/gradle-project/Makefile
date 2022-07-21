@@ -1,3 +1,5 @@
+.PHONY: run test
+
 run:
 	gradle run
 

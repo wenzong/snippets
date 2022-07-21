@@ -1,7 +1,6 @@
 package demo;
 
 import junit.framework.TestCase;
-import org.junit.Assert.*;
 
 public class PojoTest extends TestCase {
 

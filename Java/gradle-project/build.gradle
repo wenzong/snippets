@@ -3,9 +3,9 @@ plugins {
     id 'application' // -> mainClassName
 }
 
-mainClassName = 'demo.pojo'
-
 repositories {
+    maven { url 'https://maven.aliyun.com/repository/public/'}
+    mavenLocal()
     mavenCentral()
 }
 
@@ -20,6 +20,16 @@ dependencies {
     testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.8.1'
 }
 
+application {
+    mainClassName = 'demo.Pojo'
+}
+
 test {
     useJUnitPlatform()
+}
+
+task hello {
+    doLast {
+        println 'hello world'
+    }
 }
