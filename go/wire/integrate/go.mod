@@ -7,7 +7,7 @@ require (
 	github.com/go-redis/redis/v8 v8.4.4
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gocraft/dbr/v2 v2.7.1
-	github.com/golang/protobuf v1.5.2
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/wire v0.5.0
 	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
@@ -19,8 +19,7 @@ require (
 	github.com/onsi/gomega v1.10.4
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/prometheus/client_golang v1.10.0 // indirect
-	github.com/prometheus/common v0.20.0 // indirect
+	github.com/prometheus/client_golang v1.11.1 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/cobra v1.1.3
@@ -32,6 +31,7 @@ require (
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0
 	golang.org/x/net v0.0.0-20210331060903-cb1fcc7394e5 // indirect
+	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
 	google.golang.org/genproto v0.0.0-20210331142528-b7513248f0ba // indirect
 	google.golang.org/grpc v1.36.1
 	google.golang.org/protobuf v1.26.0
