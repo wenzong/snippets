@@ -11,7 +11,7 @@ paramiko==2.10.1
 Flask==2.3.2
 Flask-Login==0.4.1
 flask-cookie-decode==0.3.2
-uWSGI==2.0.17
+uWSGI==2.0.22
 gunicorn==19.8.1
 
 requests==2.31.0
