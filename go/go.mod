@@ -16,9 +16,8 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.8.1
-	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/text v0.7.0
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/text v0.13.0
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
