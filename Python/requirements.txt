@@ -6,7 +6,7 @@ pandas
 # statsmodels
 sklearn
 
-paramiko==2.10.1
+paramiko==3.4.0
 
 Flask==2.3.2
 Flask-Login==0.4.1
